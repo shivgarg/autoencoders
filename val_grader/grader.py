@@ -22,10 +22,10 @@ def grade(module, bottleneck_limit=8192):
         x = encode(img)
         assert x.nbytes <= bottleneck_limit, "Bottleneck too large!"
         
-        reconstructed_img = decode(x)
-        assert reconstructed_img.size == (256,256,3), "Output resolution wrong!"
+        reconstructed_img = np.array(decode(x)).astype(float)
+        assert reconstructed_img.shape == (256,256,3), "Output resolution wrong!"
         
-        loss.append(np.abs(np.array(img) - np.array(reconstructed_img)))
+        loss.append(np.abs(np.array(img).astype(float) - reconstructed_img))
     
     print ("Loss: %.3f"%np.mean(loss))
     
